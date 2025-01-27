@@ -26,6 +26,12 @@ public class PlayerController : MonoBehaviour
     // UI object to display winning text.
     public GameObject winTextObject;
 
+    // UI object to restart the level after a loss.
+    public GameObject restartButton;
+
+    // Audio asset that plays when a collectible is picked up.
+    private AudioSource audioSource;
+
     // Start is called before the first frame update.
     void Start()
     {
@@ -40,6 +46,12 @@ public class PlayerController : MonoBehaviour
 
         // Initially set the win text to be inactive.
         winTextObject.SetActive(false);
+
+        // Initially set the restart button to be inactive.
+        restartButton.SetActive(false);
+
+        // Get and store the audio component attached to the player.
+        audioSource = GetComponent<AudioSource>();
     }
 
     // This function is called when a move input is detected.
@@ -77,6 +89,9 @@ public class PlayerController : MonoBehaviour
 
             // Update the count display.
             SetCountText();
+
+            // Play the sound effect.
+            audioSource.Play();
         }
     }
 
@@ -104,10 +119,10 @@ public class PlayerController : MonoBehaviour
             // Destroy the current object
             Destroy(gameObject);
 
-            // Update the winText to display "You Lose!"
+            // Update the winText to display "You Lose!" and enable the restart button
             winTextObject.gameObject.SetActive(true);
             winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
-
+            restartButton.gameObject.SetActive(true);
         }
 
     }
